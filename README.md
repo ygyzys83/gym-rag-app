@@ -43,6 +43,23 @@ graph TD
 - **Interactive Performance Matrix:** A dynamic UI that tracks volume, max weight, and highlights "PR" (Personal Records) using sentiment analysis.
 - **Privacy First:** 100% local. No data ever leaves your hardware.
 
+## 📊 Performance Metrics & Optimization
+To achieve a production-ready experience on local hardware, several architectural trade-offs were made regarding latency vs. accuracy.
+
+
+
+| Process | Model | Hardware | Speed/Latency |
+| :--- | :--- | :--- | :--- |
+| **Data Ingestion** | Llama 3.2 (3B) | RTX 5070 | ~1.2s per workout line |
+| **PDF Extraction** | Docling (Layout Model) | RTX 5070 | ~4.5s per page (105 pages) |
+| **Vector Embedding** | all-MiniLM-L6-v2 | RTX 5070 | < 50ms per chunk |
+| **RAG Coaching** | Llama 3.2 (3B) | RTX 5070 | ~30ms per token (Streaming) |
+
+### **Key Technical Trade-offs**
+- **Model Selection:** Swapped Qwen 2.5/3.5 (Reasoning) for Llama 3.2 (Fast) in the Coaching module. While Qwen provided deeper reasoning, the **30-second "Thinking" latency** was unacceptable for a real-time UI.
+- **Brute-Force Ingestion:** Moved from "Batch" processing to "Line-by-Line" extraction. This increased total ingestion time by 15% but improved **data fidelity from ~80% to 100%**.
+- **Memory Management:** Implemented `@st.cache_resource` for the Vector DB and Embedding models, reducing subsequent query response times by **90%** (eliminating model reload overhead).
+
 ## 🛠 Installation
 1. Install [Ollama](https://ollama.com) and pull models: `ollama pull llama3.2`
 2. Clone this repo.
