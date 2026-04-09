@@ -28,7 +28,7 @@ graph TD
         H -->|Context + History| I[Coach Arnold - Llama 3.2]
         I -->|Streaming Advice| G
     end
-
+```
 ## 🛠 Tech Stack
 - **Languages:** Python (Pandas, Re, Asyncio)
 - **AI Models:** Llama 3.2 (Extraction & Coaching), Qwen 3.5 (Reasoning)
