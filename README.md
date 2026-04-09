@@ -1,8 +1,9 @@
-Note: This is a Local-First AI application designed to run on personal hardware (RTX 5070) for maximum data privacy.
-
 # 🏋️‍♂️ Elite AI Fitness Tracker & RAG Coach
 
-A privacy-first, local-AI fitness dashboard that transforms messy workout journals into structured analytics and provides a science-backed "AI Coach" using RAG (Retrieval-Augmented Generation).
+> **Privacy-First Local AI:** Designed for local execution on personal hardware (RTX 5070) to ensure sensitive health data never leaves the user's machine.
+
+A local-AI fitness dashboard that transforms messy workout journals into structured analytics and provides a science-backed "AI Coach" using RAG (Retrieval-Augmented Generation).
+
 
 ## 🚀 The Technical Challenge
 Workout data is notoriously messy. Converting human shorthand (e.g., "70s for 3x10") into a database often results in "Lazy AI" errors where models summarize or skip entries. This project implements a **Brute-Force Ingestion Pipeline** and a **Multi-Model RAG Stack** to solve these challenges with 100% data fidelity.
