@@ -1,6 +1,6 @@
 # 🏋️‍♂️ Elite AI Fitness Tracker & RAG Coach
 
-> **Privacy-First Local AI:** Designed for local execution on NVIDIA RTX Hardware to ensure sensitive health data remains 100% private and secure.
+> **Privacy-First Local AI:** Optimized for local inference on **NVIDIA RTX hardware** to ensure sensitive health data remains 100% private while maintaining low-latency RAG performance.
 
 A local-AI fitness dashboard that transforms messy workout journals into structured analytics and provides a science-backed "AI Coach" using RAG (Retrieval-Augmented Generation).
 
