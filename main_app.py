@@ -94,7 +94,7 @@ if os.path.exists(DB_PATH):
                 "Ask about your progress or general training science:",
                 placeholder="e.g., Based on the manual, is my current volume optimal for hypertrophy?"
             )
-            submit_button = st.form_submit_button("Ask Coach")
+            submit_button = st.form_submit_button("Ask Coach GT")
 
         if submit_button and user_question:
             # 1. RETRIEVE SCIENCE (The RAG Part)
