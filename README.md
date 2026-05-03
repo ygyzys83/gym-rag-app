@@ -1,8 +1,8 @@
 # 🏋️‍♂️ Elite AI Fitness Tracker & RAG Coach
 
-> **Privacy-First Local AI:** Optimized for local inference on **NVIDIA RTX hardware** to ensure sensitive health data remains 100% private while maintaining low-latency RAG performance.
+> **Local-first, cloud-ready:** Runs entirely on local NVIDIA RTX hardware for maximum privacy, with optional Gemini cloud backend for public Streamlit deployment.
 
-A local-AI fitness dashboard that transforms messy workout journals into structured analytics and provides a science-backed "AI Coach" using RAG (Retrieval-Augmented Generation).
+A fitness dashboard that transforms messy workout journals into structured analytics and provides a science-backed "AI Coach" using RAG (Retrieval-Augmented Generation).
 
 
 ## 🚀 The Technical Challenge
@@ -12,59 +12,131 @@ Workout data is notoriously messy. Converting human shorthand (e.g., "70s for 3x
 
 ```mermaid
 graph TD
-    subgraph Ingestion
-        A[.txt Journal] -->|Line-by-Line| B[Llama 3.2]
-        B -->|Structured| C[(JSON Database)]
+    subgraph Ingestion ["Ingestion (Local Only)"]
+        A[.txt Journal] -->|Line-by-Line| B[Qwen 2.5]
+        B -->|Structured| C[(exercise_db.json)]
     end
 
-    subgraph Knowledge Base
-        D[NSCA Science PDF] -->|Docling| E[Markdown]
-        E -->|Smart Chunking| F[(ChromaDB Vector Store)]
+    subgraph Knowledge Base ["Knowledge Base (Local Only)"]
+        D[Science PDFs] -->|Docling| E[Markdown]
+        E -->|Two-Pass Chunking| F[(ChromaDB Vector Store)]
     end
 
-    subgraph User UI
+    subgraph User UI ["Streamlit App (Local or Cloud)"]
         G[Streamlit Dashboard] -->|Query| H[RAG Logic]
         C --> H
         F --> H
-        H -->|Context + History| I[Coach Arnold - Llama 3.2]
-        I -->|Streaming Advice| G
+        H -->|Context + History| I{Backend?}
+        I -->|local| J[Qwen 3.6 via Ollama]
+        I -->|cloud| K[Gemini 2.5 Flash Lite]
+        J -->|Streaming Advice| G
+        K -->|Streaming Advice| G
     end
 ```
+
 ## 🛠 Tech Stack
-- **Languages:** Python (Pandas, Re, Asyncio)
-- **AI Models:** Llama 3.2 (Extraction & Coaching), Qwen 3.5 (Reasoning)
-- **Inference Engine:** Ollama (Local GPU acceleration via RTX 5070)
-- **PDF Processing:** Docling (IBM’s Layout-Aware Parser)
-- **Vector Database:** ChromaDB
+- **Languages:** Python (Pandas, Re, Datetime)
+- **AI Models:** Qwen 2.5 (data extraction · local only), Qwen 3.6 (coaching · local), Gemini 2.5 Flash Lite (coaching · cloud)
+- **Inference Engine:** Ollama (local GPU via RTX 5070) · Google AI API (cloud)
+- **PDF Processing:** Docling (IBM's Layout-Aware Parser)
+- **Vector Database:** ChromaDB with LangChain
 - **Framework:** Streamlit
 
 ## 🌟 Key Features
-- **100% Reliable Ingestion:** Uses a custom brute-force line-by-line parsing strategy to ensure no workout is skipped.
-- **Science-Backed Advice:** The "AI Coach" retrieves actual training principles from a 100-page NSCA manual before answering.
-- **Interactive Performance Matrix:** A dynamic UI that tracks volume, max weight, and highlights "PR" (Personal Records) using sentiment analysis.
-- **Privacy First:** 100% local. No data ever leaves your hardware.
+- **Dual-Backend Coaching:** Coach GT runs on Qwen 3.6 locally (via Ollama) or Gemini 2.5 Flash Lite in the cloud. Switch with a single line in `secrets.toml` — no code changes needed.
+- **Password-Protected UI:** App is secured via a password gate backed by Streamlit Secrets — safe for public deployment.
+- **100% Reliable Ingestion:** Uses a custom brute-force line-by-line parsing strategy to ensure no workout entry is skipped. Dates, session types, and exercise data are all captured and structured.
+- **Log Workouts from the UI:** New workout days can be entered directly in the app in natural shorthand. Entries are parsed by Qwen 2.5, then written to both `my_messy_workouts.txt` and `exercise_db.json` automatically.
+- **Science-Backed Advice:** Coach GT retrieves relevant chunks from a library of open-access research articles and training manuals before answering. Citations reference article titles — never invented filenames or chunk numbers.
+- **Interactive Workout History:** A session-by-session calendar view shows the last 20 workouts. Each day is expandable to show a full exercise table with metrics and progressive overload status per exercise.
+- **Progressive Overload Tracking:** Automatically detects when weight has stagnated across 3+ sessions and surfaces a warning in the UI and in the coach's context.
+- **Full Chat Memory:** Coach GT maintains the full conversation history within a session, allowing follow-up questions and contextual coaching across multiple exchanges.
+- **Privacy First:** Ingestion and vector DB pipelines run 100% locally. No workout data is sent externally unless the cloud coaching backend is enabled.
 
 ## 📊 Performance Metrics & Optimization
-To achieve a production-ready experience on local hardware, several architectural trade-offs were made regarding latency vs. accuracy.
 
-
-
-| Process | Model | Hardware | Speed/Latency |
+| Process | Model | Hardware | Speed / Latency |
 | :--- | :--- | :--- | :--- |
-| **Data Ingestion** | Llama 3.2 (3B) | RTX 5070 | ~1.2s per workout line |
-| **PDF Extraction** | Docling (Layout Model) | RTX 5070 | ~4.5s per page (105 pages) |
+| **Data Ingestion** | Qwen 2.5 | RTX 5070 | ~1.2s per workout line |
+| **PDF Extraction** | Docling (Layout Model) | RTX 5070 | ~4.5s per page |
 | **Vector Embedding** | all-MiniLM-L6-v2 | RTX 5070 | < 50ms per chunk |
-| **RAG Coaching** | Llama 3.2 (3B) | RTX 5070 | ~30ms per token (Streaming) |
+| **RAG Coaching (local)** | Qwen 3.6 via Ollama | RTX 5070 | ~30ms per token (streaming) |
+| **RAG Coaching (cloud)** | Gemini 2.5 Flash Lite | Google API | ~20ms per token (streaming) |
 
 ### **Key Technical Trade-offs**
-- **Model Selection:** Swapped Qwen 2.5/3.5 (Reasoning) for Llama 3.2 (Fast) in the Coaching module. While Qwen provided deeper reasoning, the **30-second "Thinking" latency** was unacceptable for a real-time UI.
-- **Brute-Force Ingestion:** Moved from "Batch" processing to "Line-by-Line" extraction. This increased total ingestion time by 15% but improved **data fidelity from ~80% to 100%**.
-- **Memory Management:** Implemented `@st.cache_resource` for the Vector DB and Embedding models, reducing subsequent query response times by **90%** (eliminating model reload overhead).
+- **Dual-Backend Coach:** Ingestion stays local (Qwen 2.5) since it runs as a one-time pipeline step before deployment. The coach is the only live inference call in the app, so it's the only component that needs a cloud API path for hosted deployment.
+- **Two-Pass Chunking:** `MarkdownHeaderTextSplitter` preserves header context in each chunk; `RecursiveCharacterTextSplitter` caps oversized sections at 1000 characters. This prevents single giant chunks from overwhelming retrieval on sections with no sub-headers.
+- **Dedup Protection:** `build_vector_db.py` wipes and fully rebuilds ChromaDB on every run, preventing duplicate chunks from accumulating across re-runs.
+- **Brute-Force Ingestion:** Line-by-line extraction (vs. batch) increased ingestion time by ~15% but improved **data fidelity from ~80% to 100%**.
+- **Memory Management:** `@st.cache_resource` on the Vector DB and embedding model eliminates reload overhead, reducing subsequent query latency by **~90%**.
+- **Smart RAG Context:** Coach GT receives the full chronological workout log + a per-exercise summary on every query. The selected day in the UI is passed as a reference point, not a filter — the coach always has the complete history.
+
+## 🗂 Project Structure
+
+```
+gym-rag-app/
+├── knowledge_base/          # Source PDFs (research articles, training manuals)
+├── data/
+│   ├── raw/
+│   │   └── my_messy_workouts.txt   # Source workout journal
+│   ├── processed/
+│   │   └── exercise_db.json        # Structured exercise database
+│   ├── knowledge_markdown/         # Docling PDF → Markdown output
+│   └── chroma_db/                  # ChromaDB vector store
+├── .streamlit/
+│   └── secrets.toml                # Local secrets config (do NOT commit)
+├── ingest_knowledge.py     # Step 1: Convert PDFs → Markdown
+├── build_vector_db.py      # Step 2: Chunk Markdown → ChromaDB
+├── ingest_data.py          # Step 3: Parse workout .txt → exercise_db.json
+├── main_app.py             # Streamlit app
+├── test_search.py          # Verify ChromaDB retrieval quality
+└── requirements.txt
+```
 
 ## 🛠 Installation
-1. Install [Ollama](https://ollama.com) and pull models: `ollama pull llama3.2`
+
+1. Install [Ollama](https://ollama.com) and pull the required local models:
+   ```bash
+   ollama pull qwen2.5
+   ollama pull qwen3.6
+   ```
 2. Clone this repo.
-3. Place your training manuals (PDF) into the knowledge_base/ folder.
-4. Install dependencies: `pip install -r requirements.txt`
-5. Run ingestion: `python ingest_data.py`
-6. Launch UI: `streamlit run main_app.py`
+3. Place your science PDFs and training manuals into the `knowledge_base/` folder.
+4. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+5. Create `.streamlit/secrets.toml` and configure your backend:
+   ```toml
+   APP_PASSWORD = "your_password_here"
+
+   # "local" = Ollama/qwen3.6 | "cloud" = Gemini 2.5 Flash Lite
+   COACH_BACKEND = "local"
+
+   # Required only when COACH_BACKEND = "cloud"
+   # Get your key at: https://aistudio.google.com/apikey
+   GEMINI_API_KEY = "your_gemini_api_key_here"
+   ```
+6. Run the ingestion pipeline in order:
+   ```bash
+   python ingest_knowledge.py   # Convert PDFs to Markdown
+   python build_vector_db.py    # Build the vector store
+   python ingest_data.py        # Parse your workout journal
+   ```
+7. Launch the app:
+   ```bash
+   streamlit run main_app.py
+   ```
+
+## ☁️ Streamlit Cloud Deployment
+1. Push your repo to GitHub. Ensure `.streamlit/secrets.toml` is listed in `.gitignore`.
+2. Connect your repo in the [Streamlit Cloud dashboard](https://streamlit.io/cloud).
+3. Go to **App Settings → Secrets** and add:
+   ```toml
+   APP_PASSWORD = "your_password_here"
+   COACH_BACKEND = "cloud"
+   GEMINI_API_KEY = "your_gemini_api_key_here"
+   ```
+4. Deploy. The app will use Gemini automatically — no code changes required.
+
+> **Note on data files:** `exercise_db.json` and `chroma_db/` are generated locally and must be committed to the repo (or hosted separately) for the cloud app to have access to your workout history and science knowledge base. Ensure sensitive workout data is acceptable to store in your repository, or use a private repo.

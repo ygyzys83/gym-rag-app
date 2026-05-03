@@ -1,5 +1,5 @@
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 CHROMA_PATH = "data/chroma_db"
 embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
