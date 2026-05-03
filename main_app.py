@@ -308,7 +308,7 @@ with tab_history:
                 display_df.columns = ['Exercise', 'Weight (lbs)', 'Sets', 'Reps', 'Notes']
                 st.dataframe(
                     display_df.style.map(highlight_notes, subset=['Notes']),
-                    use_container_width=True, hide_index=True
+                    width='stretch', hide_index=True
                 )
 
                 st.markdown("**Progressive Overload Status (exercises performed today):**")
