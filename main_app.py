@@ -9,17 +9,8 @@ import re
 from datetime import date, datetime
 
 # ── MODEL CONFIG ──────────────────────────────────────────────────────────────
-# Backend is controlled via secrets.toml — no code changes needed when switching
-# between local dev and Streamlit Cloud deployment.
-#
-# secrets.toml:
-#   COACH_BACKEND = "local"   → Ollama + qwen3.6  (requires local Ollama instance)
-#   COACH_BACKEND = "cloud"   → Gemini 2.5 Flash Lite via Google AI API
-#   GEMINI_API_KEY = "..."    → required only when COACH_BACKEND = "cloud"
-
-COACH_NAME        = "Coach GT"
-LOCAL_COACH_MODEL = 'qwen3.6'
-CLOUD_COACH_MODEL = 'gemini-2.5-flash-lite'
+COACH_MODEL = 'qwen3.6'
+COACH_NAME = "Coach GT"
 
 # ── FILE PATHS ────────────────────────────────────────────────────────────────
 DB_PATH = 'data/processed/exercise_db.json'
@@ -121,10 +112,10 @@ def analyze_progressive_overload(exercise_df):
             "message": f"✅ Progressive overload on track. Current: {last_weight} lbs | PR: {all_time_max} lbs."}
 
 
-def build_history_context(df, selected_date=None):
+def build_history_context(df):
     """
-    Always sends the coach the FULL exercise history so it can reason across
-    all sessions — not just the selected day.
+    Sends the coach the complete workout history and per-exercise summary.
+    No day filtering — the coach always has the full picture.
     """
     full_log = (
         df[['date', 'session', 'exercise_name', 'weight_lbs', 'sets', 'reps', 'notes']]
@@ -141,18 +132,7 @@ def build_history_context(df, selected_date=None):
     )
     summary_str = f"\nEXERCISE SUMMARY (all time, all exercises):\n{summary.to_string(index=False)}"
 
-    if selected_date:
-        day_df = df[df['date'] == selected_date]
-        day_records = day_df[['exercise_name', 'weight_lbs', 'sets', 'reps', 'notes']].to_dict(orient='records')
-        day_str = (
-            f"\nUSER'S CURRENTLY SELECTED DAY ({selected_date}) — for reference only. "
-            f"You may answer questions about any part of the full history above:\n"
-            f"{json.dumps(day_records, indent=2)}"
-        )
-    else:
-        day_str = ""
-
-    return full_log_str + summary_str + day_str
+    return full_log_str + summary_str
 
 
 def highlight_notes(val):
@@ -471,20 +451,7 @@ with tab_log:
 # TAB 3 — COACH GT
 # ───────────────────────────────────────────────────────────────────────────────
 with tab_coach:
-    selected_date = st.session_state.get('selected_date')
-    if selected_date:
-        days_df_ref = df.groupby(['date', 'session']).size().reset_index(name='count')
-        match = days_df_ref[days_df_ref['date'] == selected_date]['session'].values
-        session_label = match[0] if len(match) > 0 else "your workout"
-        st.caption(
-            f"📌 Reference day: **{selected_date}** — *{session_label}*. "
-            f"Coach always has your full history and can answer questions about any session or exercise."
-        )
-    else:
-        st.caption(
-            "Coach always has access to your full workout history and science database. "
-            "Select a day in the History tab to highlight it as a reference point."
-        )
+    st.caption("Coach always has access to your complete workout history and science database.")
 
     if 'chat_messages' not in st.session_state:
         st.session_state.chat_messages = []
@@ -520,7 +487,7 @@ with tab_coach:
             for doc in relevant_docs:
                 st.write(doc.metadata)
 
-        history_context = build_history_context(df, selected_date)
+        history_context = build_history_context(df)
 
         system_prompt = f"""You are {COACH_NAME}, a high-level Strength and Conditioning Specialist.
 
@@ -552,64 +519,24 @@ INSTRUCTIONS:
 - Be direct and concise. Do not be overly technical. Translate technical language to common language when it makes sense. Avoid motivational filler.
 - You remember everything said earlier in this conversation — refer back to it naturally when relevant."""
 
-        # ── BACKEND ROUTING ───────────────────────────────────────────────────
-        # Reads COACH_BACKEND from secrets at runtime — no code change needed
-        # when deploying to Streamlit Cloud vs. running locally.
-        coach_backend = st.secrets.get("COACH_BACKEND", "local")
-
-        messages_for_model = [{"role": "system", "content": system_prompt}]
+        ollama_messages = [{"role": "system", "content": system_prompt}]
         for msg in st.session_state.chat_messages:
-            messages_for_model.append({"role": msg["role"], "content": msg["content"]})
+            ollama_messages.append({"role": msg["role"], "content": msg["content"]})
+
 
         def stream_coach_response():
             try:
-                if coach_backend == "cloud":
-                    # ── CLOUD: Gemini 2.5 Flash Lite ─────────────────────────
-                    import google.generativeai as genai
-
-                    try:
-                        gemini_api_key = st.secrets["GEMINI_API_KEY"]
-                    except KeyError:
-                        yield "❌ GEMINI_API_KEY not found in secrets. Add it to `.streamlit/secrets.toml`."
-                        return
-
-                    genai.configure(api_key=gemini_api_key)
-                    model = genai.GenerativeModel(
-                        model_name=CLOUD_COACH_MODEL,
-                        system_instruction=system_prompt,
-                        generation_config={"temperature": 0.3},
-                    )
-
-                    # Convert message history to Gemini format
-                    # Gemini uses "user"/"model" roles (not "user"/"assistant")
-                    gemini_history = []
-                    for msg in st.session_state.chat_messages[:-1]:  # All but the latest
-                        gemini_history.append({
-                            "role": "model" if msg["role"] == "assistant" else "user",
-                            "parts": [msg["content"]]
-                        })
-
-                    chat = model.start_chat(history=gemini_history)
-                    response_stream = chat.send_message(
-                        st.session_state.chat_messages[-1]["content"],
-                        stream=True
-                    )
-                    for chunk in response_stream:
-                        yield chunk.text
-
-                else:
-                    # ── LOCAL: Ollama + qwen3.6 ──────────────────────────────
-                    stream = ollama.chat(
-                        model=LOCAL_COACH_MODEL,
-                        messages=messages_for_model,
-                        stream=True,
-                        options={'temperature': 0.3, 'think': False}
-                    )
-                    for chunk in stream:
-                        yield chunk['message']['content']
-
+                stream = ollama.chat(
+                    model=COACH_MODEL,
+                    messages=ollama_messages,
+                    stream=True,
+                    options={'temperature': 0.3, 'think': False}
+                )
+                for chunk in stream:
+                    yield chunk['message']['content']
             except Exception as e:
                 yield f"❌ {COACH_NAME} encountered an error: {e}"
+
 
         with st.chat_message("assistant"):
             response = st.write_stream(stream_coach_response)
