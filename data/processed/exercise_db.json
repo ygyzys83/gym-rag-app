@@ -1,0 +1,682 @@
+[
+    {
+        "date": "2026-04-09",
+        "day_id": 1,
+        "session": "shoulders/traps",
+        "exercise_name": "Treadmill",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "8% incline @ 3.6mph, 20 min"
+    },
+    {
+        "date": "2026-04-09",
+        "day_id": 1,
+        "session": "shoulders/traps",
+        "exercise_name": "DB shoulder press",
+        "weight_lbs": 35,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-09",
+        "day_id": 1,
+        "session": "shoulders/traps",
+        "exercise_name": "DB shoulder shrugs",
+        "weight_lbs": 55,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-09",
+        "day_id": 1,
+        "session": "shoulders/traps",
+        "exercise_name": "DB lateral raises",
+        "weight_lbs": 12,
+        "sets": 3,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-09",
+        "day_id": 1,
+        "session": "shoulders/traps",
+        "exercise_name": "DB rear delt flies",
+        "weight_lbs": 12,
+        "sets": 3,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-11",
+        "day_id": 2,
+        "session": "back",
+        "exercise_name": "bike",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "10 minute warmup"
+    },
+    {
+        "date": "2026-04-11",
+        "day_id": 2,
+        "session": "back",
+        "exercise_name": "lat pulldown",
+        "weight_lbs": 120,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-11",
+        "day_id": 2,
+        "session": "back",
+        "exercise_name": "neutral grip lat pulldowns",
+        "weight_lbs": 130,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-11",
+        "day_id": 2,
+        "session": "back",
+        "exercise_name": "upright rows",
+        "weight_lbs": 90,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-11",
+        "day_id": 2,
+        "session": "back",
+        "exercise_name": "back extensions",
+        "weight_lbs": 0,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-12",
+        "day_id": 3,
+        "session": "cardio",
+        "exercise_name": "walk/run alternating",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "50 minutes"
+    },
+    {
+        "date": "2026-04-14",
+        "day_id": 4,
+        "session": "Chest & triceps",
+        "exercise_name": "walk",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "10 minute warmup"
+    },
+    {
+        "date": "2026-04-14",
+        "day_id": 4,
+        "session": "Chest & triceps",
+        "exercise_name": "Rotational DB chest press",
+        "weight_lbs": 55,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-14",
+        "day_id": 4,
+        "session": "Chest & triceps",
+        "exercise_name": "Incline Rotational DB chest press",
+        "weight_lbs": 50,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-14",
+        "day_id": 4,
+        "session": "Chest & triceps",
+        "exercise_name": "Overhead DB triceps extension",
+        "weight_lbs": 40,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-14",
+        "day_id": 4,
+        "session": "Chest & triceps",
+        "exercise_name": "Dips",
+        "weight_lbs": 0,
+        "sets": 4,
+        "reps": 8,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-14",
+        "day_id": 4,
+        "session": "Chest & triceps",
+        "exercise_name": "Cable Rope Pushdown",
+        "weight_lbs": 55,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-14",
+        "day_id": 4,
+        "session": "Chest & triceps",
+        "exercise_name": "Machine Chest Fly",
+        "weight_lbs": 120,
+        "sets": 4,
+        "reps": 8,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-16",
+        "day_id": 5,
+        "session": "core",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.6mph, duration: 25 min"
+    },
+    {
+        "date": "2026-04-16",
+        "day_id": 5,
+        "session": "core",
+        "exercise_name": "Standing medicine ball twists",
+        "weight_lbs": 0,
+        "sets": 4,
+        "reps": 20,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-16",
+        "day_id": 5,
+        "session": "core",
+        "exercise_name": "mountain climbers",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 40,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-16",
+        "day_id": 5,
+        "session": "core",
+        "exercise_name": "alternating plank",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 40,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-16",
+        "day_id": 5,
+        "session": "core",
+        "exercise_name": "hanging twists",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 20,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-16",
+        "day_id": 5,
+        "session": "core",
+        "exercise_name": "leg zigzags",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 40,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-16",
+        "day_id": 5,
+        "session": "core",
+        "exercise_name": "high knees",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 40,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-17",
+        "day_id": 6,
+        "session": "cardio and core",
+        "exercise_name": "treadmill walk",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.6mph, duration: 20 min"
+    },
+    {
+        "date": "2026-04-17",
+        "day_id": 6,
+        "session": "cardio and core",
+        "exercise_name": "kettle bell swings",
+        "weight_lbs": 45,
+        "sets": 4,
+        "reps": 12,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-17",
+        "day_id": 6,
+        "session": "cardio and core",
+        "exercise_name": "treadmill walk",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.6mph, duration: 25 min"
+    },
+    {
+        "date": "2026-04-19",
+        "day_id": 7,
+        "session": "legs",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.6mph, duration: 12 min"
+    },
+    {
+        "date": "2026-04-19",
+        "day_id": 7,
+        "session": "legs",
+        "exercise_name": "trap bar deadlifts",
+        "weight_lbs": 135,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-19",
+        "day_id": 7,
+        "session": "legs",
+        "exercise_name": "leg extensions",
+        "weight_lbs": 115,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-19",
+        "day_id": 7,
+        "session": "legs",
+        "exercise_name": "treadmill walk",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.6mph, duration: 30 min"
+    },
+    {
+        "date": "2026-04-21",
+        "day_id": 8,
+        "session": "shoulders & traps",
+        "exercise_name": "treadmill warmup",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "jog 1.25 miles @ 6.0mph"
+    },
+    {
+        "date": "2026-04-21",
+        "day_id": 8,
+        "session": "shoulders & traps",
+        "exercise_name": "DB shoulder press",
+        "weight_lbs": 35,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-21",
+        "day_id": 8,
+        "session": "shoulders & traps",
+        "exercise_name": "Shoulder shrugs",
+        "weight_lbs": 55,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-21",
+        "day_id": 8,
+        "session": "shoulders & traps",
+        "exercise_name": "DB front shoulder raise",
+        "weight_lbs": 17,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-21",
+        "day_id": 8,
+        "session": "shoulders & traps",
+        "exercise_name": "DB rear delt raises",
+        "weight_lbs": 17,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-21",
+        "day_id": 8,
+        "session": "shoulders & traps",
+        "exercise_name": "Machine shoulder raises (neutral grip)",
+        "weight_lbs": 85,
+        "sets": 4,
+        "reps": 8,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-21",
+        "day_id": 8,
+        "session": "shoulders & traps",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "7.5% incline @ 3.5mph, 35 min"
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "incline: 8%, speed: 3.5mph, duration: 12 min"
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "hanging leg lifts",
+        "weight_lbs": 0,
+        "sets": 4,
+        "reps": 12,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "hanging knee twists",
+        "weight_lbs": 0,
+        "sets": 3,
+        "reps": 12,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "mountain climbers",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 40,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "standing medicine ball twist",
+        "weight_lbs": 18,
+        "sets": 3,
+        "reps": 24,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "scissor kicks",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 40,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "straight-arm side plank with rotation",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 30,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-22",
+        "day_id": 9,
+        "session": "core",
+        "exercise_name": "90/90 crunches",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 40,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-23",
+        "day_id": 10,
+        "session": "cardio",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "8% incline @ 3.6mph, 50 minutes"
+    },
+    {
+        "date": "2026-04-24",
+        "day_id": 11,
+        "session": "back & biceps",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.6mph, duration: 12 min"
+    },
+    {
+        "date": "2026-04-24",
+        "day_id": 11,
+        "session": "back & biceps",
+        "exercise_name": "wide grip pullups",
+        "weight_lbs": 0,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-24",
+        "day_id": 11,
+        "session": "back & biceps",
+        "exercise_name": "standing horizontal rows",
+        "weight_lbs": 60,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-24",
+        "day_id": 11,
+        "session": "back & biceps",
+        "exercise_name": "DB bicep curls",
+        "weight_lbs": 27,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-24",
+        "day_id": 11,
+        "session": "back & biceps",
+        "exercise_name": "lower back extensions",
+        "weight_lbs": 0,
+        "sets": 4,
+        "reps": 12,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-24",
+        "day_id": 11,
+        "session": "back & biceps",
+        "exercise_name": "neutral grip lat pulldown machine",
+        "weight_lbs": 115,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-27",
+        "day_id": 12,
+        "session": "legs",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.6mph, duration: 12 min"
+    },
+    {
+        "date": "2026-04-27",
+        "day_id": 12,
+        "session": "legs",
+        "exercise_name": "leg press",
+        "weight_lbs": 270,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-27",
+        "day_id": 12,
+        "session": "legs",
+        "exercise_name": "trap bar deadlifts",
+        "weight_lbs": 155,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-27",
+        "day_id": 12,
+        "session": "legs",
+        "exercise_name": "leg extensions",
+        "weight_lbs": 115,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-27",
+        "day_id": 12,
+        "session": "legs",
+        "exercise_name": "standing calf raise machine",
+        "weight_lbs": 285,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-27",
+        "day_id": 12,
+        "session": "legs",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "incline: 7.5%, speed: 3.4mph, duration: 20 min"
+    },
+    {
+        "date": "2026-04-28",
+        "day_id": 13,
+        "session": "cardio",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "8% incline @ 3.6mph, 55 minutes"
+    },
+    {
+        "date": "2026-04-30",
+        "day_id": 14,
+        "session": "chest & triceps",
+        "exercise_name": "jog",
+        "weight_lbs": 0,
+        "sets": 0,
+        "reps": 0,
+        "notes": "treadmill: 6.0mph, 10 minutes"
+    },
+    {
+        "date": "2026-04-30",
+        "day_id": 14,
+        "session": "chest & triceps",
+        "exercise_name": "rotational grip DB chest press",
+        "weight_lbs": 70,
+        "sets": 4,
+        "reps": 5,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-30",
+        "day_id": 14,
+        "session": "chest & triceps",
+        "exercise_name": "rotational grip DB incline chest press",
+        "weight_lbs": 60,
+        "sets": 4,
+        "reps": 6,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-30",
+        "day_id": 14,
+        "session": "chest & triceps",
+        "exercise_name": "dips",
+        "weight_lbs": 0,
+        "sets": 4,
+        "reps": 10,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-30",
+        "day_id": 14,
+        "session": "chest & triceps",
+        "exercise_name": "cable rope pushdowns",
+        "weight_lbs": 80,
+        "sets": 4,
+        "reps": 6,
+        "notes": ""
+    },
+    {
+        "date": "2026-04-30",
+        "day_id": 14,
+        "session": "chest & triceps",
+        "exercise_name": "DB flies",
+        "weight_lbs": 30,
+        "sets": 4,
+        "reps": 6,
+        "notes": ""
+    },
+    {
+        "date": "2026-05-01",
+        "day_id": 15,
+        "session": "cardio",
+        "exercise_name": "treadmill",
+        "weight_lbs": 0,
+        "sets": 1,
+        "reps": 0,
+        "notes": "8.0% incline, 3.6mph, 50 min"
+    }
+]
