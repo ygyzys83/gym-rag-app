@@ -9,8 +9,16 @@ import re
 from datetime import date, datetime
 
 # ── MODEL CONFIG ──────────────────────────────────────────────────────────────
-COACH_MODEL = 'qwen3.6'
-COACH_NAME = "Coach GT"
+# Backend is controlled via secrets.toml — no code changes needed when switching
+# between local dev and Streamlit Cloud deployment.
+#
+# secrets.toml:
+#   COACH_BACKEND = "local"   → Ollama + qwen3.6  (requires local Ollama instance)
+#   COACH_BACKEND = "cloud"   → Gemini 2.5 Flash Lite via Google AI API
+#   GEMINI_API_KEY = "..."    → required only when COACH_BACKEND = "cloud"
+COACH_NAME        = "Coach GT"
+LOCAL_COACH_MODEL = 'qwen3.6'
+CLOUD_COACH_MODEL = 'gemini-2.5-flash-lite'
 
 # ── FILE PATHS ────────────────────────────────────────────────────────────────
 DB_PATH = 'data/processed/exercise_db.json'
@@ -519,24 +527,63 @@ INSTRUCTIONS:
 - Be direct and concise. Do not be overly technical. Translate technical language to common language when it makes sense. Avoid motivational filler.
 - You remember everything said earlier in this conversation — refer back to it naturally when relevant."""
 
-        ollama_messages = [{"role": "system", "content": system_prompt}]
-        for msg in st.session_state.chat_messages:
-            ollama_messages.append({"role": msg["role"], "content": msg["content"]})
+        # ── BACKEND ROUTING ───────────────────────────────────────────────────
+        # Reads COACH_BACKEND from secrets at runtime.
+        # Defaults to "local" if key is missing so local dev works without change.
+        coach_backend = st.secrets.get("COACH_BACKEND", "local")
 
+        messages_for_model = [{"role": "system", "content": system_prompt}]
+        for msg in st.session_state.chat_messages:
+            messages_for_model.append({"role": msg["role"], "content": msg["content"]})
 
         def stream_coach_response():
             try:
-                stream = ollama.chat(
-                    model=COACH_MODEL,
-                    messages=ollama_messages,
-                    stream=True,
-                    options={'temperature': 0.3, 'think': False}
-                )
-                for chunk in stream:
-                    yield chunk['message']['content']
+                if coach_backend == "cloud":
+                    # ── CLOUD: Gemini 2.5 Flash Lite ─────────────────────────
+                    import google.generativeai as genai
+
+                    try:
+                        gemini_api_key = st.secrets["GEMINI_API_KEY"]
+                    except KeyError:
+                        yield "❌ GEMINI_API_KEY not found in secrets. Add it to `.streamlit/secrets.toml`."
+                        return
+
+                    genai.configure(api_key=gemini_api_key)
+                    model = genai.GenerativeModel(
+                        model_name=CLOUD_COACH_MODEL,
+                        system_instruction=system_prompt,
+                        generation_config={"temperature": 0.3},
+                    )
+
+                    # Gemini uses "model" instead of "assistant" for role names
+                    gemini_history = []
+                    for msg in st.session_state.chat_messages[:-1]:
+                        gemini_history.append({
+                            "role": "model" if msg["role"] == "assistant" else "user",
+                            "parts": [msg["content"]]
+                        })
+
+                    chat = model.start_chat(history=gemini_history)
+                    response_stream = chat.send_message(
+                        st.session_state.chat_messages[-1]["content"],
+                        stream=True
+                    )
+                    for chunk in response_stream:
+                        yield chunk.text
+
+                else:
+                    # ── LOCAL: Ollama + qwen3.6 ──────────────────────────────
+                    stream = ollama.chat(
+                        model=LOCAL_COACH_MODEL,
+                        messages=messages_for_model,
+                        stream=True,
+                        options={'temperature': 0.3, 'think': False}
+                    )
+                    for chunk in stream:
+                        yield chunk['message']['content']
+
             except Exception as e:
                 yield f"❌ {COACH_NAME} encountered an error: {e}"
-
 
         with st.chat_message("assistant"):
             response = st.write_stream(stream_coach_response)
