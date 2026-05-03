@@ -19,7 +19,7 @@ from datetime import date, datetime
 
 COACH_NAME        = "Coach GT"
 LOCAL_COACH_MODEL = 'qwen3.6'
-CLOUD_COACH_MODEL = 'gemini-2.5-flash-lite-preview-06-17'
+CLOUD_COACH_MODEL = 'gemini-2.5-flash-lite'
 
 # ── FILE PATHS ────────────────────────────────────────────────────────────────
 DB_PATH = 'data/processed/exercise_db.json'
