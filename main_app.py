@@ -17,7 +17,7 @@ from datetime import date, datetime
 #   COACH_BACKEND = "cloud"   → Gemini 2.5 Flash Lite via Google AI API
 #   GEMINI_API_KEY = "..."    → required only when COACH_BACKEND = "cloud"
 COACH_NAME        = "Coach GT"
-LOCAL_COACH_MODEL = 'qwen3.6'
+LOCAL_COACH_MODEL = 'gemma4:26b'
 CLOUD_COACH_MODEL = 'gemini-2.5-flash-lite'
 
 # ── FILE PATHS ────────────────────────────────────────────────────────────────
