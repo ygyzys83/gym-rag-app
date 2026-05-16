@@ -36,14 +36,14 @@ graph TD
 
 ## 🛠 Tech Stack
 - **Languages:** Python (Pandas, Re, Datetime)
-- **AI Models:** Qwen 2.5 (data extraction · local only), Qwen 3.6 (coaching · local), Gemini 2.5 Flash Lite (coaching · cloud)
+- **AI Models:** Qwen 2.5 (data extraction · local only), gemma4:26b (coaching · local), Gemini 2.5 Flash Lite (coaching · cloud)
 - **Inference Engine:** Ollama (local GPU via RTX 5070) · Google AI API (cloud)
 - **PDF Processing:** Docling (IBM's Layout-Aware Parser)
 - **Vector Database:** ChromaDB with LangChain
 - **Framework:** Streamlit
 
 ## 🌟 Key Features
-- **Dual-Backend Coaching:** Coach GT runs on Qwen 3.6 locally (via Ollama) or Gemini 2.5 Flash Lite in the cloud. Switch with a single line in `secrets.toml` — no code changes needed.
+- **Dual-Backend Coaching:** Coach GT runs on gemma4:26b locally (via Ollama) or Gemini 2.5 Flash Lite in the cloud. Switch with a single line in `secrets.toml` — no code changes needed.
 - **Password-Protected UI:** App is secured via a password gate backed by Streamlit Secrets — safe for public deployment.
 - **100% Reliable Ingestion:** Uses a custom brute-force line-by-line parsing strategy to ensure no workout entry is skipped. Dates, session types, and exercise data are all captured and structured.
 - **Log Workouts from the UI:** New workout days can be entered directly in the app in natural shorthand. Entries are parsed by Qwen 2.5, then written to both `my_messy_workouts.txt` and `exercise_db.json` automatically.
@@ -55,13 +55,13 @@ graph TD
 
 ## 📊 Performance Metrics & Optimization
 
-| Process | Model | Hardware | Speed / Latency |
-| :--- | :--- | :--- | :--- |
-| **Data Ingestion** | Qwen 2.5 | RTX 5070 | ~1.2s per workout line |
+| Process | Model                  | Hardware | Speed / Latency |
+| :--- |:-----------------------| :--- | :--- |
+| **Data Ingestion** | Qwen 2.5               | RTX 5070 | ~1.2s per workout line |
 | **PDF Extraction** | Docling (Layout Model) | RTX 5070 | ~4.5s per page |
-| **Vector Embedding** | all-MiniLM-L6-v2 | RTX 5070 | < 50ms per chunk |
-| **RAG Coaching (local)** | Qwen 3.6 via Ollama | RTX 5070 | ~30ms per token (streaming) |
-| **RAG Coaching (cloud)** | Gemini 2.5 Flash Lite | Google API | ~20ms per token (streaming) |
+| **Vector Embedding** | all-MiniLM-L6-v2       | RTX 5070 | < 50ms per chunk |
+| **RAG Coaching (local)** | gemma4:26b via Ollama  | RTX 5070 | ~30ms per token (streaming) |
+| **RAG Coaching (cloud)** | Gemini 2.5 Flash Lite  | Google API | ~20ms per token (streaming) |
 
 ### **Key Technical Trade-offs**
 - **Dual-Backend Coach:** Ingestion stays local (Qwen 2.5) since it runs as a one-time pipeline step before deployment. The coach is the only live inference call in the app, so it's the only component that needs a cloud API path for hosted deployment.
@@ -98,7 +98,7 @@ gym-rag-app/
 1. Install [Ollama](https://ollama.com) and pull the required local models:
    ```bash
    ollama pull qwen2.5
-   ollama pull qwen3.6
+   ollama pull gemma4:26b
    ```
 2. Clone this repo.
 3. Place your science PDFs and training manuals into the `knowledge_base/` folder.
@@ -110,7 +110,7 @@ gym-rag-app/
    ```toml
    APP_PASSWORD = "your_password_here"
 
-   # "local" = Ollama/qwen3.6 | "cloud" = Gemini 2.5 Flash Lite
+   # "local" = Ollama/gemma4:26b | "cloud" = Gemini 2.5 Flash Lite
    COACH_BACKEND = "local"
 
    # Required only when COACH_BACKEND = "cloud"
